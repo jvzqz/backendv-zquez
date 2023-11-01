@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat</title>
+</head>
+<body>
+  <ul id="message-list"></ul>
+  <input type="text" id="message-input">
+  <button id="send-button">Enviar</button>
+
+  <script src="socket.io/socket.io.js"></script>
+  <script>
+
+    const socket = io();
+    const messageModel = {{ messageModel }};
+    const messageList = document.{{messageList}}('message-list');
+    const messageInput = document.{{messageInput}}('message-input');
+    const sendButton = document.{{sendButton}}('send-button');
+
+
+    function addMessage(socketId, message) {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${Id}: ${message}`;
+      messageList.appendChild(listItem);
+    }
+
+    socket.on('message', ({ socketId, message }) => {
+      addMessage(socketId, message);
+    });
+
+    socket.on('messages', (initialMessages) => {
+      initialMessages.forEach(({Id, message }) => {
+        addMessage(Id, message);
+      });
+    });
+
+    sendButton.addEventListener('click', () => {
+      const message = messageInput.value;
+      socket.emit('message', message);
+      messageInput.value = '';
+    });
+  </script>
+</body>
+</html>

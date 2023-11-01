@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import cartModel from '../dao/models/cart';
 
-
 const cartRouter = Router ()
 
 cartRouter.post('/', (req,res)=>{
